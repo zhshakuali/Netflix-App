@@ -21,6 +21,7 @@ class TitlePreviewVC: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.text = "Harry Potter"
+        label.numberOfLines = 0
         return label
     }()
     
@@ -66,6 +67,7 @@ class TitlePreviewVC: UIViewController {
             
             titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             overviewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

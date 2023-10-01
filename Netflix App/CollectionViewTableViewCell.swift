@@ -57,7 +57,7 @@ class CollectionViewTableViewCell: UITableViewCell {
         DataPersistenceManager.shared.downloadTitleWith(with: titles[indexPath.row]) { result in
             switch result {
             case .success():
-                print("downloaded to Database")
+                NotificationCenter.default.post(name: NSNotification.Name("Downloaded") , object: nil)
             case .failure(let error):
                 print(error.localizedDescription)
             }
