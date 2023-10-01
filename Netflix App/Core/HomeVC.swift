@@ -17,6 +17,9 @@ enum Sections: Int {
 
 class HomeVC: UIViewController {
     
+    private var randomTrendingMovie: Title?
+    private var headerView: HeroHeaderUIView?
+    
     let sectionTitles: [String] = [ "Trending Movies", "Trending TV", "Popular", "Upcoming movies", "Top rated"]
     
     private var homeFeedTable: UITableView = {
@@ -29,13 +32,13 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         view.addSubview(homeFeedTable)
-        
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
         
         configureNavBar()
-        let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+        configureHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -51,8 +54,22 @@ class HomeVC: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
-        navigationController?.navigationBar.tintColor = .darkGray
+        navigationController?.navigationBar.tintColor = .white
         
+    }
+    
+    private func configureHeaderView() {
+        APICaller.shared.getTrendingMovies { result in
+            switch result {
+            case .success(let titles):
+                let selectedTitle = titles.randomElement()
+                
+                self.randomTrendingMovie = selectedTitle
+                self.headerView?.configure(with: TitleViewModel(titleName: selectedTitle?.original_name ?? selectedTitle?.original_title ?? "Unknown movie", posterURL: selectedTitle?.poster_path ?? ""))
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -73,6 +90,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.delegate = self
         switch indexPath.section {
             
         case Sections.TrendingMovies.rawValue:
@@ -152,4 +170,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         
         navigationController?.navigationBar.transform = .init(translationX: 0, y: (min(0, -offSet)))
     }
+}
+
+extension HomeVC: CollectionViewTableViewCellDelegate {
+    func collectionViewTableViewCellDidTap(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel) {
+        
+        DispatchQueue.main.async { [weak self] in
+            let vc = TitlePreviewVC()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+    }
+    
+    
 }

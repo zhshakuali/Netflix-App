@@ -74,6 +74,13 @@ class HeroHeaderUIView: UIView {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
+    public func configure(with model: TitleViewModel) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original\(model.posterURL)") else {
+            return
+        }
+        heroImageView.sd_setImage(with: url)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
