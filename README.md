@@ -1,13 +1,13 @@
-Netflix App
+**Netflix App**
 
-- Description
+**- Description**
 
 The Netflix application is a service for watching movies and TV series by subscription. In this demo app, you can see "Popular Movies, Popular TV Shows, Popular, Upcoming Movies and Top Rated Movies." You can also search for any movie and download the movie you like.
 
-- Demo video:  https://drive.google.com/file/d/1njWD18SJvt7e2CngtnFKGlxfVwDuQzxm/view?usp=drive_link
+**- Demo video: ** https://drive.google.com/file/d/1njWD18SJvt7e2CngtnFKGlxfVwDuQzxm/view?usp=drive_link
 
 
-Technologies Used:
+**Technologies Used:**
 
 - To getting the data used this API: https://api.themoviedb.org
 - The movie trailer used for playback:  https://youtube.googleapis.com/youtube/v3
